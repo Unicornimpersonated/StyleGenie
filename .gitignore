@@ -1,0 +1,34 @@
+# IDE
+.idea
+.vscode
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Distribution / Packaging
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints
+
+# PyTorch
+*.pth
+*.pt
+
+# TensorBoard
+runs/
+
+# OS
+.DS_Store
+Thumbs.db
