@@ -1,202 +1,218 @@
-## Fast Neural Style Transfer (feed-forward method) :zap::computer: + :art: = :heart:
-This repo contains a concise PyTorch implementation of the original feed-forward NST paper (:link: [Johnson et al.](https://arxiv.org/pdf/1603.08155.pdf)).
+# StyleGenie - Fast Neural Style Transfer
 
-Checkout my implementation of the original NST (optimization method) paper ([Gatys et al.](https://github.com/gordicaleksa/pytorch-neural-style-transfer)).
+A PyTorch implementation of fast neural style transfer using feed-forward networks. Transform any image into a work of art in real-time using pre-trained style models.
 
-It's an accompanying repo for [this video series on YouTube](https://www.youtube.com/watch?v=S78LQebx6jo&list=PLBoQnSflObcmbfshq9oNs41vODgXG-608).
-
-<p align="left">
-<a href="https://www.youtube.com/watch?v=S78LQebx6jo" target="_blank"><img src="https://img.youtube.com/vi/S78LQebx6jo/0.jpg" 
-alt="NST Intro" width="480" height="360" border="10" /></a>
-</p>
-
-### Why yet another Fast NST (feed-forward method) repo?
-It's the **cleanest and most concise** NST repo that I know of + it's written in **PyTorch!** :heart:
-
-My idea :bulb: is to make the code so simple and well commented, that you can use it as a **first step on your NST learning journey** before any other blog, course, book or research paper. :books:
-
-I've included automatic, pretrained models and MS COCO dataset, download script - so you can either **instantaneously run it** and get the results (:art: stylized images) using pretrained models **or start training/experimenting with your own models**. :rocket:
-
-## Examples
-
-Here are some examples with the [4 pretrained models](https://www.dropbox.com/s/fb39gscd1b42px1/pretrained_models.zip?dl=0) (automatic download enabled - look at [usage section](#usage)):
+## Demo
 
 <p align="center">
-<img src="data/examples/style_images/mosaic_crop_resized_230.jpg" width="208px">
-<img src="data/examples/mosaic_model/taj_mahal_width_500_model_mosaic_4e5_e2_resized_230.jpg" width="300px">
-<img src="data/examples/mosaic_model/figures_width_500_model_mosaic_4e5_e2_resized_230.jpg" width="310px">
-
-<img src="data/examples/style_images/edtaonisl_crop_resized_230.jpg" width="208px">
-<img src="data/examples/edtaonisl_model/taj_mahal_width_500_model_edtaonisl_9e5_33k_resized_230.jpg" width="300px">
-<img src="data/examples/edtaonisl_model/figures_width_500_model_edtaonisl_9e5_33k_resized_230.jpg" width="310px">
-
-<img src="data/examples/style_images/vg_starry_night_resized_230.jpg" width="208px">
-<img src="data/examples/starry_night_model/taj_mahal_width_500_model_starry_v3_resize_230.jpg" width="300px">
-<img src="data/examples/starry_night_model/figures_width_500_model_starry_v3_resize_230.jpg" width="310px">
-
-<img src="data/examples/style_images/candy_resize_230.jpg" width="208px">
-<img src="data/examples/candy_model/taj_mahal_width_800_model_candy_resize_230.jpg" width="300px">
-<img src="data/examples/candy_model/figures_width_500_model_candy_resize_230.jpg" width="310px">
+<img src="data/content-images/Aneri.jpg" width="280px">
+<img src="data/style-images/mosaic.jpg" width="280px">
+<img src="data/output-images/Aneri_width_500_model_mosaic_4e5_e2.jpg" width="280px">
 </p>
-
-*Note:* keep in mind that I still need to improve these models, 3 of these (last 3 rows) only saw 33k images from MS COCO.
-
-## Setup
-
-1. Open Anaconda Prompt and navigate into project directory `cd path_to_repo`
-2. Run `conda env create` from project directory (this will create a brand new conda environment).
-3. Run `activate pytorch-nst-fast` (if you want to run scripts from your console otherwise set the interpreter in your IDE)
-
-That's it! It should work out-of-the-box executing environment.yml file which deals with dependencies.
-
------
-
-PyTorch package will pull some version of CUDA with it, but it is highly recommended that you install system-wide CUDA beforehand, mostly because of GPU drivers. I also recommend using Miniconda installer as a way to get conda on your system. 
-
-Follow through points 1 and 2 of [this setup](https://github.com/Petlja/PSIML/blob/master/docs/MachineSetup.md) and use the most up-to-date versions of Miniconda and CUDA/cuDNN (I recommend CUDA 10.1 or 10.2 as those are compatible with PyTorch 1.5, which is used in this repo, and newest compatible cuDNN).
-
-## Usage
-
-Go through this section to run the project but if you are still having problems take a look at [this (stylization)](https://www.youtube.com/watch?v=lOR-LncQlk8&list=PLBoQnSflObcmbfshq9oNs41vODgXG-608&index=5) and [this (training)](https://www.youtube.com/watch?v=EuXd-aO77A0&list=PLBoQnSflObcmbfshq9oNs41vODgXG-608&index=6) accompanying YouTube videos.
-
-### Stylization
-
-1. Download pretrained models, run: `python utils/resource_downloader.py`
-2. Run `python stylization_script.py` (it's got default content image and model set)
-
-That's it! If you want more flexibility (and I guess you do) there's a couple more nuggets of info.
-
-More expressive command is:<br/>
-`python stylization_script.py --content_input <imgname or directory> --img_width <width> --model_name <name>`
-
-If you pass a directory into `--content_input` it will perform batch stylization.<br/>
-You can control the batch size (in case you have VRAM problems) with `batch_size` param.
-
------
-
-You just need to specify the **names**, the repo automatically finds content images and models in default directories:
-1. content images default dir: `/data/content-images/`
-2. model binaries default dir: `/models/binaries/`
-
-So all **you** got to do is place images and models there and you can use them. Output will be dumped to `/data/output-images/`.
-
-After you run resource_downloader.py script binaries dir will be pre-populated with 4 pretrained models.
-
-Go ahead, play with it and make some art!
 
 <p align="center">
-<img src="data/examples/lion_width_360_model_mosaic_4e5_e2.jpg" width="325px">
-<img src="data/examples/figures_width_550_model_mosaic_4e5_e2.jpg" height="325px">
+<i>Content Image → Style Image → Stylized Output</i>
 </p>
 
-### Training your own models
+## Features
 
-1. Download MS COCO dataset, run `python utils/resource_downloader.py -r mscoco_dataset` (it's a 12.5 GB file)
-2. Run `python training_script.py --style_img_name <name>`
+- Fast feed-forward neural style transfer
+- Pre-trained models for instant stylization
+- Custom model training on your own style images
+- GPU and CPU support
+- Batch processing capabilities
+- TensorBoard integration for training monitoring
 
-Now that will probably actually work!
+## Quick Start
 
-It will periodically dump checkpoint models to `/models/checkpoints/` and the final model to `/models/binaries/` by default.
+### Installation
 
-I strongly recommend playing with these 2 params:
-1. **style_weight** - I always kept it in the [1e5, 9e5] range, you may have to tweak it for your specific style image a little bit
-2. **subset_size** - Usually 32k images do the job (that's 8k batches) - you'll need to monitor **tensorboard** to figure out if your curves are saturating at that point or not. If they are still going down set the number higher
+```bash
+# Clone the repository
+git clone https://github.com/Unicornimpersonated/StyleGenie.git
+cd StyleGenie
 
-That brings us to the next section!
-
-### Tensorboard Visualizations
-
-To **start tensorboard** just run: `tensorboard --logdir=runs --samples_per_plugin images=50` from your conda console.
-
-`samples_per_plugin images=<number>` sets the number of images you'll be able to see when moving the image slider.
-
-There's basically **2 things you want to monitor** during your training (not counting console output <- redundant if you use tensor board)
-
-#### Monitor your loss/statistics curves
-
-You want to keep `content-loss` and `style-loss` going down or at least one of them (style loss usually saturates first). 
-
-I usually set tv weight to 0 so that's why you see 0 on the `tv-loss` curve. You should use it only if you see that your images are having smoothness problem ([check this out](https://github.com/gordicaleksa/pytorch-neural-style-transfer#impact-of-total-variation-tv-loss) for visualization of what exactly tv weight does).
-
-<p align="center">
-<img src="data/examples/readme_pics/loss_curves.PNG" width="900"/>
-</p>
-
-Statistics curves let me understand how the stylized image coming out of the transformer net behaves. 
-
-<p align="center">
-<img src="data/examples/readme_pics/statistics.PNG" width="400"/>
-</p>
-
-If max or min intensities start diverging or mean/median start going to far away from 0 that's a good indicator that your (probably) style weight is not good. You can keep the content weight constant and just tweak the style weight.
-
-#### Monitor your intermediate stylized images
-
-This one helps immensely so as to help you manually early-stop your training if you don't like the stylized output you see.
-
-<p align="center">
-<img src="data/examples/readme_pics/monitor_img1.jpg" height="350"/>
-<img src="data/examples/readme_pics/monitor_img2.jpg" height="350"/>
-</p>
-
-In the beggining stylized images look kinda rubish like the one one the left. As the training progresses you'll get more meaningful images popping out (the one on the right). 
-
-## Debugging
-Q: My style/content loss curves just spiked in the middle of training?<br/>
-A: 2 options: a) rerun the training (optimizer got into a bad state) b) if that doesn't work lower your style weight
-
-<p align="left">
-<img src="data/examples/readme_pics/spike.png" width="683"/>
-</p>
-
-Q: How can I see the exact parameters that you used to train your models?<br/>
-A: Just run the model in the `stylization_script.py`, training metadata will be printed out to the output console.
-
-## Further experimentation (advanced, for researchers)
-
-There's a couple of things you could experiment with (assuming fixed net architectures), here are some ideas:
-1. Try and set MSE to `sum` reduction for the style loss. I used that method [here](https://github.com/gordicaleksa/pytorch-neural-style-transfer/blob/master/neural_style_transfer.py) and it gave nice results. You'll have to play with style-weight afterwards to get it running. This will effectively give bigger weight to deeper style representations because Gram matrices coming out from deeper layers are bigger. Meaning you'll give advantage to high-level style features (broad spatial characteristics of the style) over low level style features (smaller neighborhood characteristics like fine brush-strokes).
-2. Original paper used `tanh activation` at the output - figure out how you can get it to work using that, you may have to add some scaling. There is this magic constant 150 that Johnson originally used to scale tanh. I created [this issue](https://github.com/jcjohnson/fast-neural-style/issues/186) as it is un-clear of how it came to be and whether it was just experimentally figured out.
-3. PyTorch VGG16 pretrained model was trained on the 0..1 range ImageNet normalized images. Try and work with 0..255 range ImageNet mean-only-normalized images - that will also work! It worked [here](https://github.com/gordicaleksa/pytorch-neural-style-transfer/blob/master/utils/utils.py) and if you try and feed such an image into VGG16 (as a classifier) it will give you correct predictions!
-4. [This repo](https://github.com/pytorch/examples/tree/master/fast_neural_style) used 0..255 images (no normalization) as an input to transformer net - play with that. You'll have to normalize transformer net output before feeding that to VGG16.
-
-Some of these may further improve the visual quality that you get from these models! If you find something interesting I'd like to hear from you!
-
-## Acknowledgements
-
-I found these repos useful: (while developing this one)
-* [fast_neural_style](https://github.com/pytorch/examples/tree/master/fast_neural_style) (PyTorch, feed-forward method)
-* [pytorch-neural-style-transfer](https://github.com/gordicaleksa/pytorch-neural-style-transfer) (PyTorch, optimization method)
-* [original J.Johnson's repo](https://github.com/jcjohnson/fast-neural-style) (Torch, written in Lua)
-
-I found some of the content/style images I was using here:
-* [style/artistic images](https://www.rawpixel.com/board/537381/vincent-van-gogh-free-original-public-domain-paintings?sort=curated&mode=shop&page=1)
-* [awesome figures pic](https://www.pexels.com/photo/action-android-device-electronics-595804/)
-
-Other images are now already classics in the NST world.
-
-## Citation
-
-If you find this code useful for your research, please cite the following:
-
-```
-@misc{Gordić2020nst-fast,
-  author = {Gordić, Aleksa},
-  title = {pytorch-nst-feedforward},
-  year = {2020},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/gordicaleksa/pytorch-nst-feedforward}},
-}
+# Install dependencies
+pip install -r requirements.txt
 ```
 
-## Connect with me
+### Stylize Images
 
-If you'd love to have some more AI-related content in your life :nerd_face:, consider:
-* Subscribing to my YouTube channel [The AI Epiphany](https://www.youtube.com/c/TheAiEpiphany) :bell:
-* Follow me on [LinkedIn](https://www.linkedin.com/in/aleksagordic/) and [Twitter](https://twitter.com/gordic_aleksa) :bulb:
-* Follow me on [Medium](https://gordicaleksa.medium.com/) :books: :heart:
+```bash
+# Download pre-trained models
+python utils/resource_downloader.py
 
-## Licence
+# Stylize a single image
+python stylization_script.py --content_input Aneri.jpg --model_name mosaic_4e5_e2.pth
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/gordicaleksa/pytorch-nst-feedforward/blob/master/LICENCE)
+# Batch stylization (entire directory)
+python stylization_script.py --content_input /path/to/images/ --batch_size 10
+```
+
+## Project Structure
+
+```
+StyleGenie/
+├── data/
+│   ├── content-images/      # Input images
+│   ├── style-images/        # Style reference images
+│   └── output-images/       # Generated stylized images
+├── models/
+│   ├── definitions/         # Network architectures
+│   │   ├── transformer_net.py
+│   │   └── perceptual_loss_net.py
+│   ├── binaries/           # Trained model weights
+│   └── checkpoints/        # Training checkpoints
+├── utils/
+│   ├── utils.py            # Helper functions
+│   └── resource_downloader.py
+├── stylization_script.py   # Inference script
+└── training_script.py      # Training script
+```
+
+## Training Your Own Models
+
+### 1. Download Training Dataset
+
+```bash
+# Download MS COCO dataset (~12.5 GB)
+python utils/resource_downloader.py -r mscoco_dataset
+```
+
+### 2. Train a Model
+
+```bash
+python training_script.py --style_img_name mosaic.jpg --style_weight 4e5
+```
+
+### Key Training Parameters
+
+- `--style_img_name`: Name of style image in `data/style-images/`
+- `--style_weight`: Style loss weight (recommended: 1e5 to 9e5)
+- `--content_weight`: Content loss weight (default: 1.0)
+- `--tv_weight`: Total variation loss weight (default: 0)
+- `--num_of_epochs`: Number of training epochs (default: 2)
+- `--subset_size`: Number of MS COCO images to use (default: all ~83k)
+
+### 3. Monitor Training with TensorBoard
+
+```bash
+tensorboard --logdir=runs --samples_per_plugin images=50
+```
+
+Open http://localhost:6006/ to view:
+- Loss curves (content, style, total variation)
+- Image statistics (min/max/mean/median)
+- Intermediate stylized outputs
+
+## Model Architecture
+
+### TransformerNet
+- **Encoder**: 3 convolutional layers with instance normalization
+- **Residual Network**: 5 ResNet-style residual blocks
+- **Decoder**: Upsampling layers with nearest-neighbor interpolation
+
+### PerceptualLossNet (VGG16)
+- Pre-trained VGG16 for perceptual loss computation
+- Extracts features from layers: relu1_2, relu2_2, relu3_3, relu4_3
+- Used for both content and style loss calculation
+
+## Advanced Usage
+
+### Custom Image Width
+
+```bash
+python stylization_script.py --content_input image.jpg --img_width 800
+```
+
+### Verbose Mode
+
+```bash
+python stylization_script.py --content_input image.jpg --verbose
+```
+
+This displays:
+- Model training metadata
+- Git commit hash
+- Hyperparameters used during training
+- Output save location
+
+### Training with Custom Parameters
+
+```bash
+python training_script.py \
+  --style_img_name candy.jpg \
+  --style_weight 3e5 \
+  --content_weight 1.0 \
+  --tv_weight 0 \
+  --num_of_epochs 3 \
+  --subset_size 40000 \
+  --enable_tensorboard
+```
+
+## How It Works
+
+1. **Content Image** passes through TransformerNet → **Stylized Image**
+2. Both images pass through VGG16 (PerceptualLossNet)
+3. **Content Loss**: MSE between relu2_2 features
+4. **Style Loss**: MSE between Gram matrices of multiple layers
+5. **Total Loss** = Content Loss + Style Loss + TV Loss
+6. Backpropagate and update TransformerNet weights
+
+## Troubleshooting
+
+### Loss Spike During Training
+- Try re-running the training (optimizer may have entered bad state)
+- Lower the `--style_weight` parameter
+
+### Out of Memory
+- Reduce `--batch_size` in stylization script
+- Lower `--img_width` for smaller image dimensions
+- Use CPU mode if GPU memory is insufficient
+
+### Check Model Metadata
+```bash
+python stylization_script.py --content_input image.jpg --verbose
+```
+
+## Requirements
+
+- Python 3.8+
+- PyTorch 2.5.0+
+- torchvision 0.20.0+
+- OpenCV 4.10.0+
+- NumPy 2.1.0+
+- TensorBoard 2.18.0+
+
+See [requirements.txt](requirements.txt) for complete dependencies.
+
+## Performance
+
+- **Training Time**: ~2-4 hours on GPU for 2 epochs with full MS COCO dataset
+- **Inference Time**: Real-time (milliseconds per image on GPU)
+- **Model Size**: ~7 MB per trained model
+
+## References
+
+Based on the paper:
+- **Perceptual Losses for Real-Time Style Transfer and Super-Resolution**
+  - Justin Johnson, Alexandre Alahi, Li Fei-Fei
+  - [arXiv:1603.08155](https://arxiv.org/pdf/1603.08155.pdf)
+
+Improvements from:
+- Instance Normalization: [Ulyanov et al.](https://arxiv.org/pdf/1607.08022.pdf)
+- Upsampling Method: [Distill Pub](http://distill.pub/2016/deconv-checkerboard/)
+
+## License
+
+MIT License - see [LICENCE](LICENCE) file for details
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Acknowledgments
+
+- MS COCO dataset for training images
+- PyTorch team for the framework
+- Original neural style transfer research by Gatys et al.
